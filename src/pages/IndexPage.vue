@@ -1,11 +1,11 @@
 <template>
   <q-page>
-    <div class="row full-height full-width q-pa-xl">
+    <div class="row full-height full-width q-pl-xl q-pr-xl">
       <div class="col-12 col-md-6">
         <FormPix @qr-generated="handleQr" />
       </div>
 
-      <div class="col-12 col-md-6 flex flex-center column items-center">
+      <div class="col-12 col-md-6 flex flex-start column items-center">
         <div class="q-mb-md" style="min-height: 260px; min-width: 260px; position: relative">
           <div class="text-h4 q-ma-sm flex flex-center items-center justify-center">
             <p class="qrcode-title">QrCode</p>
