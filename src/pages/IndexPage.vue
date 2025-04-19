@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div class="row q-col-gutter-md full-height full-width q-pa-xl">
+    <div class="row full-height full-width q-pa-xl">
       <div class="col-12 col-md-6">
         <FormPix @qr-generated="handleQr" />
       </div>
@@ -13,14 +13,21 @@
           <q-inner-loading class="spinner" :showing="state.isLoad">
             <q-spinner-dots color="primary" size="64px" />
           </q-inner-loading>
-
           <img
             v-if="state.qrImage && !state.isLoad"
             ref="qrImgRef"
             :src="state.qrImage"
             alt="QR Code Pix"
             class="q-img-full-width"
+            style="height: 260px; width: 260px; object-fit: contain"
           />
+
+          <div
+            v-if="!state.qrImage && !state.isLoad"
+            class="flex flex-center items-center justify-center placeholder_container"
+          >
+            <q-icon name="qr_code" size="260px" class="qr_placeholder" />
+          </div>
         </div>
         <q-btn
           outline
@@ -69,7 +76,18 @@ const downloadQrCode = () => {
   color: $color-primary;
   font-family: $font-secondary;
 }
+
 .spinner {
   background-color: transparent;
+}
+
+.placeholder_container {
+  height: 260px;
+  width: 260px;
+  border: 5px solid $color-highlight;
+  border-radius: 8px;
+}
+.qr_placeholder {
+  color: $color-secondary;
 }
 </style>

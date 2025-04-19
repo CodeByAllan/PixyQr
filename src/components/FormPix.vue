@@ -1,5 +1,5 @@
 <template>
-  <q-form @submit.prevent="submitForm" class="q-ma-md">
+  <q-form @submit.prevent="submitForm" class="q-ma-sm">
     <q-option-group
       class="row q-group"
       dark
@@ -12,6 +12,7 @@
 
     <br />
     <q-input
+      class="q-ma-sm"
       dark
       filled
       v-model="form.key"
@@ -22,6 +23,7 @@
       ]"
     />
     <q-input
+      class="q-ma-sm"
       dark
       filled
       v-model="form.name"
@@ -29,6 +31,7 @@
       :rules="[(val) => !!val || 'Name is required']"
     />
     <q-input
+      class="q-ma-sm"
       dark
       filled
       v-model="form.city"
@@ -57,7 +60,7 @@ const keyTypes = [
   { label: 'CPF/CNPJ', value: 'cpfcnpj' },
   { label: 'E-mail', value: 'email' },
   { label: 'Phone', value: 'phone' },
-  { label: 'Rand', value: 'rand' },
+  { label: 'Random Key', value: 'rand' },
 ];
 const form = ref({
   key: '',
@@ -96,9 +99,6 @@ watch(
 </script>
 <style lang="scss" scoped>
 .q-group {
-  color: $color-secondary;
-}
-.qbtn {
   color: $color-secondary;
 }
 </style>
