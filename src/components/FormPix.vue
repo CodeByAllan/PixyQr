@@ -38,21 +38,14 @@
       label="City"
       :rules="[(val) => !!val || 'City is required']"
     />
-
-    <q-btn
-      label="Generate"
-      :loading="isSubmitting"
-      type="submit"
-      color="primary"
-      outline
-      class="q-ma-sm"
-    />
+    <AppButton label="Generate" :loading="isSubmitting" type="subimit" />
   </q-form>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { generatePix, isValidPixKey } from 'src/utils/pix';
+import AppButton from 'src/components/AppButton.vue';
 const emit = defineEmits<{
   (e: 'qr-generated', payload: string): void;
 }>();

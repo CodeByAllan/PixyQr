@@ -29,13 +29,7 @@
             <q-icon name="qr_code" size="260px" class="qr_placeholder" />
           </div>
         </div>
-        <q-btn
-          outline
-          v-if="state.qrImage && !state.isLoad"
-          label="Download"
-          color="primary"
-          @click="downloadQrCode"
-        />
+        <AppButton v-if="state.qrImage && !state.isLoad" label="Download" @click="downloadQrCode" />
       </div>
     </div>
   </q-page>
@@ -45,6 +39,7 @@
 import { reactive } from 'vue';
 import { generateQrCode } from 'src/utils/qrcode';
 import FormPix from 'src/components/FormPix.vue';
+import AppButton from 'src/components/AppButton.vue';
 
 const state = reactive({
   qrImage: null as string | null,
