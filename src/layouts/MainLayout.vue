@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lff">
     <q-header>
       <q-toolbar>
         <q-toolbar-title class="q-toolbar-title">
@@ -10,10 +10,13 @@
     <q-page-container>
       <router-view />
     </q-page-container>
+    <AppFooter label="CodeByAllan" year="2025" />
   </q-layout>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import AppFooter from 'src/components/AppFooter.vue';
+</script>
 <style lang="scss" scoped>
 .q-header {
   background-color: $color-bg-main;
