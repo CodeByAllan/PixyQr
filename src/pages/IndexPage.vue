@@ -47,11 +47,21 @@ const state = reactive({
   isLoad: false,
 });
 
-const handleQr = async (pixPayload: string) => {
+const handleQr = async (data: {
+  payload: string;
+  colors: { backgroundColor: string; foregroundColor: string };
+}) => {
   state.isLoad = true;
   state.qrImage = null;
 
-  state.qrImage = await generateQrCode(pixPayload);
+  state.qrImage = await generateQrCode({
+    payload: data.payload,
+    colors: {
+      backgroundColor: data.colors.backgroundColor,
+      foregroundColor: data.colors.foregroundColor,
+    },
+  });
+
   setTimeout(() => {
     state.isLoad = false;
   }, 3000);
