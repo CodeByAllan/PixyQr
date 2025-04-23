@@ -1,68 +1,28 @@
 <template>
   <q-form @submit.prevent="submitForm" class="q-ma-sm">
-    <q-option-group
-      class="row q-group"
-      dark
-      v-model="form.keyType"
-      :options="keyTypes"
-      type="radio"
-      label="Type key"
-      color="primary"
-    />
+    <q-option-group class="row q-group" dark v-model="form.keyType" :options="keyTypes" type="radio" label="Type key"
+      color="primary" />
 
     <br />
-    <q-input
-      class="q-ma-sm"
-      dark
-      filled
-      v-model="form.key"
-      label="Key"
-      :rules="[
-        (val) => !!val || 'Key is required',
-        (val) => isValidPixKey(val, form.keyType) || 'Invalid key for selected type',
-      ]"
-    />
-    <q-input
-      class="q-ma-sm"
-      dark
-      filled
-      v-model="form.name"
-      label="Name"
-      :rules="[(val) => !!val || 'Name is required']"
-    />
-    <q-input
-      class="q-ma-sm"
-      dark
-      filled
-      v-model="form.city"
-      label="City"
-      :rules="[(val) => !!val || 'City is required']"
-    />
-
+    <q-input class="q-ma-sm" dark filled v-model="form.key" label="Key" :rules="[
+      (val) => !!val || 'Key is required',
+      (val) => isValidPixKey(val, form.keyType) || 'Invalid key for selected type',
+    ]" />
+    <q-input class="q-ma-sm" dark filled v-model="form.name" label="Name"
+      :rules="[(val) => !!val || 'Name is required']" />
+    <q-input class="q-ma-sm" dark filled v-model="form.city" label="City"
+      :rules="[(val) => !!val || 'City is required']" />
+    <q-file class="q-ma-sm" filled dark v-model="form.logo" label="Logo" accept="image/*" clearable />
     <div class="row q-mt-md">
       <div class="color-picker-container">
         <div class="color-title">Foreground Color</div>
-        <q-color
-          v-model="form.foregroundColor"
-          flat
-          bordered
-          hide-cancel
-          hide-header
-          class="q-ma-sm color-picker"
-          format-model="hex"
-        />
+        <q-color v-model="form.foregroundColor" flat bordered hide-cancel hide-header class="q-ma-sm color-picker"
+          format-model="hex" />
       </div>
       <div class="color-picker-container">
         <div class="color-title">Background Color</div>
-        <q-color
-          v-model="form.backgroundColor"
-          flat
-          bordered
-          hide-cancel
-          hide-header
-          class="q-ma-sm color-picker"
-          format-model="hex"
-        />
+        <q-color v-model="form.backgroundColor" flat bordered hide-cancel hide-header class="q-ma-sm color-picker"
+          format-model="hex" />
       </div>
     </div>
 
@@ -74,6 +34,8 @@
 import { ref, watch } from 'vue';
 import { generatePix, isValidPixKey } from 'src/utils/pix';
 import AppButton from 'src/components/AppButton.vue';
+import { fileToBase64 } from 'src/utils/file_to_base64';
+import type { FormFileds } from 'src/types/form_fields';
 
 const emit = defineEmits<{
   (
@@ -84,6 +46,7 @@ const emit = defineEmits<{
         foregroundColor: string;
         backgroundColor: string;
       };
+      logo: string | undefined;
     },
   ): void;
 }>();
@@ -95,19 +58,26 @@ const keyTypes = [
   { label: 'Random Key', value: 'rand' },
 ];
 
-const form = ref({
+const form = ref<FormFileds>({
   key: '',
   name: '',
   city: '',
   keyType: 'cpfcnpj',
   foregroundColor: '#000000',
   backgroundColor: '#ffffff',
+  logo: undefined
 });
 
+const logoBase64 = ref<string | undefined>(undefined);
 const isSubmitting = ref(false);
 
-const submitForm = () => {
+const submitForm = async () => {
   isSubmitting.value = true;
+  if (form.value.logo instanceof File) {
+    logoBase64.value = await fileToBase64(form.value.logo);
+  } else {
+    logoBase64.value = undefined;
+  }
 
   const pix = generatePix({
     key: form.value.key,
@@ -120,7 +90,7 @@ const submitForm = () => {
     colors: {
       foregroundColor: form.value.foregroundColor,
       backgroundColor: form.value.backgroundColor,
-    },
+    }, logo: logoBase64.value
   });
   isSubmitting.value = false;
 };

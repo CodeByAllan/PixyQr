@@ -13,19 +13,11 @@
           <q-inner-loading class="spinner" :showing="state.isLoad">
             <q-spinner-dots color="primary" size="64px" />
           </q-inner-loading>
-          <img
-            v-if="state.qrImage && !state.isLoad"
-            ref="qrImgRef"
-            :src="state.qrImage"
-            alt="QR Code Pix"
-            class="q-img-full-width"
-            style="height: 260px; width: 260px; object-fit: contain"
-          />
+          <img v-if="state.qrImage && !state.isLoad" ref="qrImgRef" :src="state.qrImage" alt="QR Code Pix"
+            class="q-img-full-width" style="height: 260px; width: 260px; object-fit: contain" />
 
-          <div
-            v-if="!state.qrImage && !state.isLoad"
-            class="flex flex-center items-center justify-center placeholder_container"
-          >
+          <div v-if="!state.qrImage && !state.isLoad"
+            class="flex flex-center items-center justify-center placeholder_container">
             <q-icon name="qr_code" size="260px" class="qr_placeholder" />
           </div>
         </div>
@@ -40,6 +32,7 @@ import { reactive } from 'vue';
 import { generateQrCode } from 'src/utils/qrcode';
 import FormPix from 'src/components/FormPix.vue';
 import AppButton from 'src/components/AppButton.vue';
+import { drawCanvas } from 'src/utils/qrcode_canvas';
 
 const state = reactive({
   qrImage: null as string | null,
@@ -50,17 +43,18 @@ const state = reactive({
 const handleQr = async (data: {
   payload: string;
   colors: { backgroundColor: string; foregroundColor: string };
+  logo: string | undefined
 }) => {
   state.isLoad = true;
   state.qrImage = null;
 
-  state.qrImage = await generateQrCode({
+  state.qrImage = await drawCanvas(await generateQrCode({
     payload: data.payload,
     colors: {
       backgroundColor: data.colors.backgroundColor,
       foregroundColor: data.colors.foregroundColor,
     },
-  });
+  }), data.logo)
 
   setTimeout(() => {
     state.isLoad = false;
@@ -92,6 +86,7 @@ const downloadQrCode = () => {
   border: 5px solid $color-highlight;
   border-radius: 8px;
 }
+
 .qr_placeholder {
   color: $color-secondary;
 }
