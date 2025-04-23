@@ -5,10 +5,12 @@
  * @interface QrParams
  * @property {string} payload - The data to be encoded in the QR Code (e.g., a URL or text).
  * @property {QrColor} colors? - The color configuration for the QR Code.
+ * @property {File} [logo] - The logo to be included in the center of the QR Code (optional).
  */
 export interface QrParams {
   payload: string; // The data to encode in the QR Code (e.g., URL or plain text).
   colors?: QrColor; // An object specifying the foreground and background colors for the QR Code.
+  logo?: File; // The logo to be included in the QR Code, if provided.
 }
 
 /**
