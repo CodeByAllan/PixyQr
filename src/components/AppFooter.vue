@@ -1,5 +1,5 @@
 <template>
-  <q-footer class="text-white text-center q-pa-md">
+  <q-footer class="text-white text-center q-pa-sm">
     <div class="footer-text text-wrap">© {{ year }} {{ label }}. All rights reserved.</div>
   </q-footer>
 </template>
